@@ -1,6 +1,6 @@
 package org.serratec.TrabalhoIndividual.exception;
 
-import java.time.LocalDateTime; 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,29 +16,29 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
-	
+
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
 		List<String> erros = new ArrayList<>();
-		for(FieldError er: ex.getBindingResult().getFieldErrors()) {
+		for (FieldError er : ex.getBindingResult().getFieldErrors()) {
 			erros.add(er.getField() + ": " + er.getDefaultMessage());
 		}
-		
+
 		return super.handleExceptionInternal(ex, erros, headers, status, request);
 	}
-	
+
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
 			HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
 		List<String> erros = new ArrayList<>();
-		erros.add("Valor de enumeração inválido: " + ex.getMostSpecificCause().getMessage());
-		
-		ErroResposta erroResposta = new ErroResposta(status.value(), 
-				"Existem campos invpalidos, confira o preenchimento", LocalDateTime.now(), erros);
-		
+		erros.add("Erro: " + ex.getMostSpecificCause().getMessage());
+
+		ErroResposta erroResposta = new ErroResposta(status.value(),
+				"Parece que alguns dados são inválidos. Por favor, verifique e tente outra vez!", LocalDateTime.now(), erros);
+
 		return super.handleExceptionInternal(ex, erroResposta, headers, status, request);
 	}
 }

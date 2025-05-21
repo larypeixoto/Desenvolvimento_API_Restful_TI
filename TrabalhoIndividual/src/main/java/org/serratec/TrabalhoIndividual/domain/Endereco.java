@@ -7,18 +7,18 @@ import jakarta.validation.constraints.Size;
 
 @Embeddable
 public class Endereco {
-	
+
 	@NotBlank(message = "Campo obrigatório: ")
 	private String rua;
-	
+
 	@NotBlank(message = "Campo obrigatório: ")
 	private String cidade;
-	
+
 	@NotBlank(message = "Campo obrigatório: ")
 	private String estado;
-	
+
 	@NotBlank(message = "Campo obrigatório: ")
-	@Column (length = 10)
+	@Column(length = 10)
 	@Size(min = 9, max = 10, message = "CEP deve ter entre {min} e {max}")
 	private String cep;
 
@@ -53,5 +53,5 @@ public class Endereco {
 	public void setCep(String cep) {
 		this.cep = cep;
 	}
-	
+
 }

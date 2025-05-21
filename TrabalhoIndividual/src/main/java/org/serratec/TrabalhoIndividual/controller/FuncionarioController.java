@@ -23,46 +23,47 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/funcionarios")
 public class FuncionarioController {
-	
+
 	@Autowired
 	private FuncionarioRepository funcionarioRepository;
-	
+
 	@GetMapping
 	public ResponseEntity<List<Funcionario>> listar() {
 		List<Funcionario> funcionarios = funcionarioRepository.findAll();
 		return ResponseEntity.ok(funcionarios);
 	}
-	
+
 	@GetMapping("/{id}")
 	public ResponseEntity<Funcionario> buscar(@PathVariable Long id) {
 		Optional<Funcionario> funcionariosOpt = funcionarioRepository.findById(id);
 		if (funcionariosOpt.isPresent()) {
 			Funcionario funcionario = funcionariosOpt.get();
-		return ResponseEntity.ok(funcionario);
+			return ResponseEntity.ok(funcionario);
+		}
+		return ResponseEntity.notFound().build();
+
 	}
-	return ResponseEntity.notFound().build();
-	
-}
-	
+
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Funcionario inserir(@RequestBody @Valid Funcionario funcionario) {
 		return funcionarioRepository.save(funcionario);
 	}
-	
+
 	@PutMapping("/{id}")
 	public ResponseEntity<Funcionario> atualizar(@PathVariable Long id, @Valid @RequestBody Funcionario funcionario) {
 		boolean funcionarioExists = funcionarioRepository.existsById(id);
 		if (funcionarioExists) {
 			funcionario.setId(id);
-			
+
 			funcionarioRepository.save(funcionario);
 			return ResponseEntity.ok(funcionario);
-		} return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.notFound().build();
 	}
-	
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deletar (@PathVariable Long id) {
+	public ResponseEntity<Void> deletar(@PathVariable Long id) {
 		boolean funcionarioExists = funcionarioRepository.existsById(id);
 		if (funcionarioExists) {
 			funcionarioRepository.deleteById(id);
@@ -70,5 +71,5 @@ public class FuncionarioController {
 		}
 		return ResponseEntity.notFound().build();
 	}
-	
+
 }

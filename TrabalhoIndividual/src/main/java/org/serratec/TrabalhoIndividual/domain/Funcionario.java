@@ -12,16 +12,16 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 public class Funcionario {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@Column (length = 90)
+
+	@Column(length = 90)
 	@Size(min = 3, max = 90, message = "Nome deve ter entre {min} e {max}")
 	@NotBlank(message = "Precisa ter nome: ")
 	private String nome;
-	
+
 	@Embedded
 	@Valid
 	private Endereco endereco;
@@ -49,5 +49,5 @@ public class Funcionario {
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
-	
+
 }
